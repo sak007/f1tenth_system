@@ -10,3 +10,6 @@
 	path = teleop_tools
 	url = https://github.com/f1tenth/teleop_tools.git
 	branch = foxy-devel
+[submodule "servo_mediator"]
+	path = servo_mediator
+	url = https://github.com/sak007/servo_mediator.git
