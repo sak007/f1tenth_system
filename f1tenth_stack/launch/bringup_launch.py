@@ -75,7 +75,7 @@ def generate_launch_description():
         package='joy',
         executable='joy_node',
         name='joy',
-        parameters=[LaunchConfiguration('joy_config')]
+        # parameters=[LaunchConfiguration('joy_config')]
     )
     joy_teleop_node = Node(
         package='joy_teleop',
