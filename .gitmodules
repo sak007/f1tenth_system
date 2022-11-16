@@ -1,0 +1,16 @@
+[submodule "vesc"]
+	path = vesc
+	url = https://github.com/sak007/vesc.git
+	branch = ros2
+[submodule "teleop_tools"]
+	path = teleop_tools
+	url = https://github.com/sak007/teleop_tools.git
+	branch = foxy-devel
+[submodule "servo_mediator"]
+	path = servo_mediator
+	url = https://github.com/sak007/servo_mediator.git
+	branch = main
+[submodule "ackermann_mux"]
+	path = ackermann_mux
+	url = https://github.com/sak007/ackermann_mux.git
+	branch = foxy-devel
