@@ -31,6 +31,12 @@ from ament_index_python.packages import get_package_share_directory
 import os
 
 def generate_launch_description():
+    
+    ekf_config = os.path.join(
+        get_package_share_directory('f1tenth_stack'),
+        'config',
+        'ekf.yaml'
+    )
     joy_teleop_config = os.path.join(
         get_package_share_directory('f1tenth_stack'),
         'config',
@@ -68,8 +74,12 @@ def generate_launch_description():
         'mux_config',
         default_value=mux_config,
         description='Descriptions for ackermann mux configs')
+    ekf_la = DeclareLaunchArgument(
+        'ekf_config',
+        default_value=ekf_config,
+        description='Descriptions for ackermann mux configs')
 
-    ld = LaunchDescription([joy_la, vesc_la, sensors_la, mux_la])
+    ld = LaunchDescription([joy_la, vesc_la, sensors_la, mux_la, ekf_la])
 
     joy_node = Node(
         package='joy',
@@ -127,6 +137,15 @@ def generate_launch_description():
         arguments=['0.27', '0.0', '0.11', '0.0', '0.0', '0.0', 'base_link', 'laser']
     )
 
+    # Start robot localization using an Extended Kalman filter
+    start_robot_localization_cmd = Node(
+        package='robot_localization',
+        executable='ekf_node',
+        name='ekf_filter_node',
+        parameters=[LaunchConfiguration('ekf_config')]
+    )
+
+
     # finalize
     ld.add_action(joy_node)
     ld.add_action(joy_teleop_node)
@@ -137,5 +156,6 @@ def generate_launch_description():
     ld.add_action(urg_node)
     ld.add_action(ackermann_mux_node)
     ld.add_action(static_tf_node)
+    ld.add_action(start_robot_localization_cmd)
 
     return ld

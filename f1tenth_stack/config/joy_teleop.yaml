@@ -13,7 +13,7 @@ joy_teleop:
       topic_name: teleop
       axis_mappings:
         drive-speed:
-          axis: 1
+          axis: 5
           scale: 0.0
           offset: 0.0
         drive-steering_angle:
@@ -28,12 +28,12 @@ joy_teleop:
       deadman_buttons: [4]
       axis_mappings:
         drive-speed:
-          axis: 1
+          axis: 5
           scale: 1.0
           offset: 0.0
         drive-steering_angle:
           axis: 2
-          scale: 0.34
+          scale: 1
           offset: 0.0
 
     autonomous_control:
