@@ -79,8 +79,9 @@ class DisparityExtender(Node):
             10)
         self.lidar_sub  # prevent unused variable warning
 
-        self.speed_pub = self.create_publisher(Float64, '/commands/motor/duty_cycle', 1)
+        self.speed_pub = self.create_publisher(Float64, '/commands/motor/speed', 1)
         self.steering_pub = self.create_publisher(Float64, '/commands/servo/position', 1)
+
 
         # self.lidar_sub = rospy.Subscriber("/scan", LaserScan, self.lidar_callback)
         # self.speed_pub = rospy.Publisher("throttle_out", Float64, queue_size=1)
@@ -433,13 +434,21 @@ class DisparityExtender(Node):
         self.wall_place_steps += 1
         self.steps += 1
 
-        print(((target_angle/60.0) + 1)/2.0) #, np.degrees(steering_angle))
+        #print(((target_angle/60.0) + 1)/2.0) #, np.degrees(steering_angle))
         steer_msg = Float64()
 
         steer_msg.data = ((target_angle/60.0) + 1)/2.0
 
+        speed_from_angle = (steer_msg.data if steer_msg.data <= 0.5 else (1.0 - steer_msg.data))* 2 * -5000
+        #print(steer_msg.data, speed_from_angle)
+        min_speed_from_angle = -2000.0
+        speed_from_angle = min_speed_from_angle if speed_from_angle > min_speed_from_angle else speed_from_angle 
+        print(steer_msg.data, speed_from_angle)
+        duty_msg = Float64()
+        duty_msg.data = speed * -67500
+        #duty_msg.data = speed_from_angle
         self.steering_pub.publish(steer_msg)
-        # self.speed_pub.publish(speed)
+        self.speed_pub.publish(duty_msg)
         # return steering_angle, speed
 
     def get_safe_forward_distance(self, lidar_ranges, index=None):
