@@ -439,9 +439,9 @@ class DisparityExtender(Node):
 
         steer_msg.data = ((target_angle/60.0) + 1)/2.0
 
-        speed_from_angle = (steer_msg.data if steer_msg.data <= 0.5 else (1.0 - steer_msg.data))* 2 * -5000
+        speed_from_angle = (steer_msg.data if steer_msg.data <= 0.5 else (1.0 - steer_msg.data))* 2 * -2000
         #print(steer_msg.data, speed_from_angle)
-        min_speed_from_angle = -2000.0
+        min_speed_from_angle = -5000.0
         speed_from_angle = min_speed_from_angle if speed_from_angle > min_speed_from_angle else speed_from_angle 
         print(steer_msg.data, speed_from_angle)
         duty_msg = Float64()
